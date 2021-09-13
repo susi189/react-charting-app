@@ -1,0 +1,50 @@
+/* add colors in root  */
+html {
+  box-sizing: border-box;
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.chart {
+  width: 90vw;
+  max-width: 1170px;
+  margin: 5rem auto;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* option for changing the grid layout with larger screen */
+
+/* @media screen and (min-width: 900px) {
+  .chart {
+    grid-template-columns: repeat(7, 1fr);
+  }
+} */
+
+/* Chart section */
+.single-day {
+  border: solid 1px;
+  text-align: center;
+}
+
+.cycle-day,
+.color,
+.observation {
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: solid 1px;
+}
+
+.observation-elem {
+  display: inline;
+  padding: 2px;
+}
+
+.quantity {
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.color {
+  height: 2em;
+  background-color: none;
+}
