@@ -1,6 +1,6 @@
 .new-observation__controls {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
   text-align: left;
@@ -35,5 +35,5 @@
 }
 
 .invalid-alert {
-  color: red;
+  color: var(--red);
 }

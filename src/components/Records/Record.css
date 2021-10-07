@@ -1,16 +1,17 @@
 .new-observation {
   background-color: #c6d8d3;
   padding: 1rem;
-  margin: 2rem auto;
-  width: 50rem;
+  margin: 1rem auto;
+  width: 45rem;
   max-width: 95%;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
 .new-observation button {
   font: inherit;
+  align-self: flex-end;
   cursor: pointer;
   padding: 0.5rem 2rem;
   border: 1px solid #331832;
@@ -24,4 +25,8 @@
 .new-observation button:active {
   background-color: #7d7883;
   border-color: #7d7883;
+}
+
+.new-observation .modify-btn {
+  background-color: rebeccapurple;
 }

@@ -14,7 +14,7 @@ const EmptyDay = (props) => {
   return (
     <div className="single-day">
       <div className="cycle-day">{cycleDay}</div>
-      <div className="color"></div>
+      <div className="color">{color}</div>
       <div className="observation-collection">
         <div className="observation-elem">{observation}</div>
         <div className="observation-elem">{additionalObserv}</div>

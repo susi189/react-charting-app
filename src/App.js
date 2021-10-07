@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Record from "./components/Records/Record";
-import Chart from "./components/Chart";
+import Chart from "./components/Chart/Chart";
 import Start from "./components/Home/Start";
+import SelectedContext from "./components/store/selected-day";
 import { supabase } from "./supabaseClient";
-import "./App.css";
+import "./components/Chart/Chart.css";
 
 const dayObj = {
   cycleDay: 0,
@@ -17,25 +18,29 @@ const dayObj = {
 
 const App = () => {
   const [showChart, setShowChart] = useState(false);
-  // const [loading, setLoading] = useState(true);
+  const [updateDay, setUpdateDay] = useState(false);
   const [lastDayNum, setLastDayNum] = useState("");
   const [cycle, setCycle] = useState([]);
+  const [selectedDay, setSelectedDay] = useState("");
   const [day, setDay] = useState(dayObj);
 
   async function getDataHandler() {
-    const { data } = await supabase.from("observations").select("*");
+    const { data } = await supabase
+      .from("observations")
+      .select("*")
+      .order("id");
 
     const previousDay = data[data.length - 1];
+
     if (previousDay === undefined) {
       setLastDayNum(0);
+      setDay(dayObj);
     } else {
       let lastCycleDay = previousDay.cycleDay;
       setLastDayNum(lastCycleDay);
     }
     setDay(previousDay);
-    console.log("last day", day);
     setCycle(data);
-    // console.log("data: ", previousDate);
   }
 
   async function updateDataHandler(enteredDay) {
@@ -47,6 +52,7 @@ const App = () => {
           color: enteredDay.color,
           observation: enteredDay.observation,
           additionalObserv: enteredDay.additionalObserv,
+          observationDescrip: enteredDay.observationDescrip,
           quantity: enteredDay.quantity,
           date: enteredDay.date,
         },
@@ -55,6 +61,33 @@ const App = () => {
     setDay(dayObj);
     getDataHandler();
   }
+
+  //this is in progress function
+  async function modifyDayHandler(enteredDay) {
+    await supabase
+      .from("observations")
+      .update({
+        cycleDay: enteredDay.cycleDay,
+        color: enteredDay.color,
+        observation: enteredDay.observation,
+        additionalObserv: enteredDay.additionalObserv,
+        observationDescrip: enteredDay.observationDescrip,
+        quantity: enteredDay.quantity,
+        date: enteredDay.date,
+      })
+      .match({
+        id: selectedDay.id,
+      });
+    setDay(dayObj);
+    getDataHandler();
+  }
+
+  const getSelectedDay = (selected) => {
+    // console.log("App selected Day", selected);
+    setSelectedDay(selected);
+    setUpdateDay(true);
+    getDataHandler();
+  };
 
   useEffect(() => {
     getDataHandler();
@@ -77,7 +110,12 @@ const App = () => {
   // };
 
   return (
-    <div>
+    <SelectedContext.Provider
+      value={{
+        isSelected: updateDay,
+        isSelectedDay: selectedDay,
+      }}
+    >
       {!showChart && <Start onClickRender={renderChart}></Start>}
       {showChart && (
         <div>
@@ -85,11 +123,16 @@ const App = () => {
             lastCycleDayNum={lastDayNum}
             previousDay={day}
             onAddNewObserv={updateDataHandler}
+            onAddModifiedObserv={modifyDayHandler}
           />
-          <Chart cycleDaysData={cycle} lastCycleDay={lastDayNum} />
+          <Chart
+            getSelectedDay={getSelectedDay}
+            cycleDaysData={cycle}
+            lastCycleDay={lastDayNum}
+          />
         </div>
       )}
-    </div>
+    </SelectedContext.Provider>
   );
 };
 

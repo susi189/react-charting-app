@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment, useContext } from "react";
 import MainObserv from "./ObservationComp/MainObservation";
 import AdditionalObserv from "./ObservationComp/AdditionalObserv";
 import ObservationDescription from "./ObservationComp/ObservationDescription";
 import Quantity from "./ObservationComp/Quantity";
 import EnteredDate from "./ObservationComp/EnteredDate";
+import SelectedContext from "../store/selected-day";
 
 import "./ObservationForm.css";
 
@@ -58,7 +59,11 @@ const recordingSysyten = {
   "10WL": "Wet with lubrication",
 };
 
+const modifyDate = (date) => {};
+
 const ObservationForm = (props) => {
+  const context = useContext(SelectedContext);
+  const [onLoad, setOnLoad] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const [cycleDay, setCycleDay] = useState(1);
   const [observation, setObservation] = useState("");
@@ -73,6 +78,7 @@ const ObservationForm = (props) => {
 
   const observationHandler = (event) => {
     setObservation(event);
+    // console.log(context);
   };
 
   const additionalObservHandler = (event) => {
@@ -87,16 +93,22 @@ const ObservationForm = (props) => {
     setQuantity(event);
   };
 
-  const dateHandler = (event, validDate) => {
-    setIsValid(validDate);
+  const dateHandler = (event) => {
     setEnteredDate(event);
+  };
+
+  const isValidEntryHandler = (bool) => {
+    if (bool === false) {
+    }
+    setIsValid(bool);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (observation && isValid) {
+    let newObserv = {};
+    if (observation && isValid && !context.isSelected) {
       let currentCycleDay = props.lastCycleDay + 1;
-      const newObserv = {
+      newObserv = {
         cycleDay: currentCycleDay,
         color: color,
         observation: observation,
@@ -104,20 +116,46 @@ const ObservationForm = (props) => {
         observationDescrip: observationDescrip,
         quantity: quantity,
         date: enteredDate,
-        // date: new Date(enteredDate).toLocaleDateString("en-US", {
-        //   timeZone: "UTC",
-        // }),
       };
+      // date: new Date(enteredDate).toLocaleDateString("en-US", {
+      //   timeZone: "UTC",
+      // }),
+    } else if (observation && isValid && context.isSelected) {
+      newObserv = {
+        cycleDay: cycleDay,
+        color: color,
+        observation: observation,
+        additionalObserv: additionalObserv,
+        observationDescrip: observationDescrip,
+        quantity: quantity,
+        date: enteredDate,
+      };
+    }
 
-      props.onSaveNewObserv(newObserv);
-      setObservation("");
-      setAdditionalObserv("");
-      setObservDescrition("");
-      setQuantity("");
-      setEnteredDate(true);
-      setCycleDay(cycleDay + 1);
+    props.onSaveNewObserv(newObserv);
+    setObservation("");
+    setAdditionalObserv("");
+    setObservDescrition("");
+    setQuantity("");
+    setEnteredDate("");
+    setCycleDay(cycleDay + 1);
+    setOnLoad(false);
+  };
+
+  const modifyChartHandler = () => {
+    if (context.isSelected) {
+      setObservation(context.isSelectedDay.observation);
+      setAdditionalObserv(context.isSelectedDay.additionalObserv);
+      setObservDescrition(context.isSelectedDay.observationDescrip);
+      setQuantity(context.isSelectedDay.quantity);
+      setEnteredDate(context.isSelectedDay.date);
+      setCycleDay(context.isSelectedDay.cycleDay);
     }
   };
+
+  useEffect(() => {
+    modifyChartHandler();
+  }, [context]);
 
   useEffect(() => {
     if (observation === "L" || observation === "VL" || observation === "B") {
@@ -127,7 +165,10 @@ const ObservationForm = (props) => {
       observation === "0" ||
       observation === "2" ||
       observation === "2W" ||
-      observation === "4"
+      observation === "4" ||
+      observation === "10DL" ||
+      observation === "10SL" ||
+      observation === "10WL"
     ) {
       setShow({ display: "block" });
     } else if (
@@ -141,7 +182,15 @@ const ObservationForm = (props) => {
       setObservDescrShow({ display: "none" });
       setAddObservShow({ display: "none" });
       setShow({ display: "none" });
+      setAdditionalObserv("");
+      setObservDescrition("");
+      setQuantity("");
     }
+    //cleanup function
+    return () => {
+      setAddObservShow({ display: "none" });
+      setObservDescrShow({ display: "none" });
+    };
   }, [observation]);
 
   useEffect(() => {
@@ -173,60 +222,69 @@ const ObservationForm = (props) => {
   }, [observation]);
 
   useEffect(() => {
-    let today = new Date();
-    let day = today.getDate();
-    let month = today.getMonth() + 1;
+    if (props.previousDay !== undefined) {
+      let prevDate = props.previousDay.date;
+      let prevDateYear = parseInt(prevDate.slice(0, 4));
+      let prevDateMonth = parseInt(prevDate.slice(5, 7)) - 1;
+      let prevDateDay = parseInt(prevDate.slice(-2));
 
-    if (day < 10) {
-      day = "0" + day;
-    }
+      var today = new Date(prevDateYear, prevDateMonth, prevDateDay);
+      today.setUTCDate(today.getUTCDate() + 1);
 
-    if (month < 10) {
-      month = "0" + month;
-    }
-
-    let date = today.getFullYear() + "-" + month + "-" + day;
-
-    if (enteredDate === "") {
+      let day = today.getDate();
+      let month = today.getMonth() + 1;
+      if (day < 10) {
+        day = "0" + day;
+      }
+      if (month < 10) {
+        month = "0" + month;
+      }
+      let date = today.getFullYear() + "-" + month + "-" + day;
+      console.log(date);
       setEnteredDate(date);
     }
-  }, []);
+  }, [props.previousDay]);
 
   return (
-    <form className="form-handler" onSubmit={handleSubmit}>
-      <div className="new-observation__controls">
-        {/* Consider later: the following 2 components can likely be consolidated to one */}
-        <MainObserv
-          records={mainObservation}
-          description={recordingSysyten}
-          value={observation}
-          onSelectObservation={observationHandler}
-        />
-        <AdditionalObserv
-          records={additionalRecords}
-          description={recordingSysyten}
-          style={addObservShow}
-          value={additionalObserv}
-          onSelectAdditionalObserv={additionalObservHandler}
-        />
-        <ObservationDescription
-          style={observDescrShow}
-          value={observationDescrip}
-          onSelectObservDescription={observDescriptionHandler}
-        />
-        <Quantity
-          style={show}
-          value={quantity}
-          onSelectQuantity={quantityHandler}
-        />
-        <EnteredDate
-          lastDate={props.previousDay.date}
-          value={enteredDate}
-          onSelectDate={dateHandler}
-        />
-        <button type="submit">Submit</button>
-      </div>
-    </form>
+    <Fragment>
+      <form className="form-handler" onSubmit={handleSubmit}>
+        <div className="new-observation__controls">
+          <MainObserv
+            records={mainObservation}
+            description={recordingSysyten}
+            value={observation}
+            onSelectObservation={observationHandler}
+          />
+          <AdditionalObserv
+            records={additionalRecords}
+            description={recordingSysyten}
+            style={addObservShow}
+            value={additionalObserv}
+            onSelectAdditionalObserv={additionalObservHandler}
+          />
+          <ObservationDescription
+            style={observDescrShow}
+            value={observationDescrip}
+            onSelectObservDescription={observDescriptionHandler}
+          />
+          <Quantity
+            style={show}
+            value={quantity}
+            onSelectQuantity={quantityHandler}
+          />
+          <EnteredDate
+            lastDate={props.previousDay}
+            isValidEntry={isValidEntryHandler}
+            value={enteredDate}
+            onSelectDate={dateHandler}
+          />
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+      {/* <button className="modify-btn" onClick={modifyChartHandler}>
+        Update date
+      </button> */}
+    </Fragment>
   );
 };
 

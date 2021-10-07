@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const EnteredDate = (props) => {
-  const [isValid, setIsValid] = useState(true);
+  const [isValidDate, setIsValidDate] = useState(true);
 
   const onChangeHandler = (event) => {
     let lastDate = props.lastDate;
-    if (lastDate === event.target.value || lastDate > event.target.value) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
+    if (lastDate !== undefined) {
+      if (
+        lastDate.date === event.target.value ||
+        lastDate.date > event.target.value
+      ) {
+        setIsValidDate(false);
+      } else {
+        setIsValidDate(true);
+      }
     }
-    props.onSelectDate(event.target.value, isValid);
-    console.log("last Date", isValid);
+    props.onSelectDate(event.target.value);
+    // props.isValidEntry(isValidDate);
+    // console.log("entered date", event.target.value, isValidDate);
   };
+
+  useEffect(() => {
+    props.isValidEntry(isValidDate);
+  }, [isValidDate, props]);
+
   return (
     <div className="new-observation__control">
       <label htmlFor="date">Current Date: </label>
       <input
         style={{
-          color: !isValid ? "red" : "black",
-          outlineColor: !isValid ? "red" : "",
+          color: !isValidDate ? "red" : "black",
+          outlineColor: !isValidDate ? "red" : "",
         }}
         type="date"
         min="2019-01-01"
@@ -27,7 +38,7 @@ const EnteredDate = (props) => {
         value={props.value}
         onChange={onChangeHandler}
       ></input>
-      {!isValid && <div className="invalid-alert">Invalid Date</div>}
+      {/* {!isValidDate && <div className="invalid-alert">Invalid Date</div>} */}
     </div>
   );
 };
