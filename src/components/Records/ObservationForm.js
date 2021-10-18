@@ -222,27 +222,29 @@ const ObservationForm = (props) => {
   }, [observation]);
 
   useEffect(() => {
+    let today = new Date();
+
     if (props.previousDay !== undefined) {
       let prevDate = props.previousDay.date;
       let prevDateYear = parseInt(prevDate.slice(0, 4));
       let prevDateMonth = parseInt(prevDate.slice(5, 7)) - 1;
       let prevDateDay = parseInt(prevDate.slice(-2));
 
-      var today = new Date(prevDateYear, prevDateMonth, prevDateDay);
+      today = new Date(prevDateYear, prevDateMonth, prevDateDay);
       today.setUTCDate(today.getUTCDate() + 1);
-
-      let day = today.getDate();
-      let month = today.getMonth() + 1;
-      if (day < 10) {
-        day = "0" + day;
-      }
-      if (month < 10) {
-        month = "0" + month;
-      }
-      let date = today.getFullYear() + "-" + month + "-" + day;
-      console.log(date);
-      setEnteredDate(date);
     }
+
+    let day = today.getDate();
+    let month = today.getMonth() + 1;
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let date = today.getFullYear() + "-" + month + "-" + day;
+    console.log(date);
+    setEnteredDate(date);
   }, [props.previousDay]);
 
   return (

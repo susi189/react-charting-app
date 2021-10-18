@@ -62,7 +62,6 @@ const App = () => {
     getDataHandler();
   }
 
-  //this is in progress function
   async function modifyDayHandler(enteredDay) {
     await supabase
       .from("observations")
@@ -83,7 +82,6 @@ const App = () => {
   }
 
   const getSelectedDay = (selected) => {
-    // console.log("App selected Day", selected);
     setSelectedDay(selected);
     setUpdateDay(true);
     getDataHandler();
@@ -95,19 +93,7 @@ const App = () => {
 
   const renderChart = () => {
     setShowChart(true);
-    // let daysTemp = createDays(35);
-    // setTemplate(daysTemp);
-    // createNewCycle();
-    // setDays(days[0]);
   };
-
-  // const updateCycleData = (d, id) => {
-  //   setDay((previousDays) => {
-  //     day[id] = d;
-  //     console.log(day);
-  //     return day;
-  //   });
-  // };
 
   return (
     <SelectedContext.Provider
