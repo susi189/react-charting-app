@@ -17,7 +17,6 @@ const EnteredDate = (props) => {
     }
     props.onSelectDate(event.target.value);
     // props.isValidEntry(isValidDate);
-    // console.log("entered date", event.target.value, isValidDate);
   };
 
   useEffect(() => {
