@@ -22,10 +22,6 @@ const Day = (props) => {
     } else {
       setIsSelected(false);
     }
-<<<<<<< HEAD
-=======
-    // console.log("Day", props.myDay);
->>>>>>> b492f0a07c284f125b12de43b278014a6e285c99
   };
 
   // props.getTempData(props.myDay);
