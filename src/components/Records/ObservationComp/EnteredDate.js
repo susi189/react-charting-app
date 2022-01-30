@@ -33,7 +33,7 @@ const EnteredDate = (props) => {
         }}
         type="date"
         min="2019-01-01"
-        max="2022-01-01"
+        max="2026-01-01"
         value={props.value}
         onChange={onChangeHandler}
       ></input>
