@@ -19,3 +19,7 @@ _What have I learned (so far)?_
 - Date Object in JavaScript
 - Connecting the app via API to an external service
 - Making sure not to push the API key to a Github repository ;)
+
+---
+
+Check out the app [here](https://susi189.github.io/react-charting-app/).
