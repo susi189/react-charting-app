@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/susi189/react-charting-app/static/css/main.60634904.chunk.css",
-    "main.js": "/susi189/react-charting-app/static/js/main.407991e3.chunk.js",
-    "main.js.map": "/susi189/react-charting-app/static/js/main.407991e3.chunk.js.map",
-    "runtime-main.js": "/susi189/react-charting-app/static/js/runtime-main.8d75d198.js",
-    "runtime-main.js.map": "/susi189/react-charting-app/static/js/runtime-main.8d75d198.js.map",
-    "static/js/2.29d1fb70.chunk.js": "/susi189/react-charting-app/static/js/2.29d1fb70.chunk.js",
-    "static/js/2.29d1fb70.chunk.js.map": "/susi189/react-charting-app/static/js/2.29d1fb70.chunk.js.map",
-    "index.html": "/susi189/react-charting-app/index.html",
-    "static/css/main.60634904.chunk.css.map": "/susi189/react-charting-app/static/css/main.60634904.chunk.css.map",
-    "static/js/2.29d1fb70.chunk.js.LICENSE.txt": "/susi189/react-charting-app/static/js/2.29d1fb70.chunk.js.LICENSE.txt"
+    "main.css": "/react-charting-app/static/css/main.60634904.chunk.css",
+    "main.js": "/react-charting-app/static/js/main.407991e3.chunk.js",
+    "main.js.map": "/react-charting-app/static/js/main.407991e3.chunk.js.map",
+    "runtime-main.js": "/react-charting-app/static/js/runtime-main.52c67fef.js",
+    "runtime-main.js.map": "/react-charting-app/static/js/runtime-main.52c67fef.js.map",
+    "static/js/2.29d1fb70.chunk.js": "/react-charting-app/static/js/2.29d1fb70.chunk.js",
+    "static/js/2.29d1fb70.chunk.js.map": "/react-charting-app/static/js/2.29d1fb70.chunk.js.map",
+    "index.html": "/react-charting-app/index.html",
+    "static/css/main.60634904.chunk.css.map": "/react-charting-app/static/css/main.60634904.chunk.css.map",
+    "static/js/2.29d1fb70.chunk.js.LICENSE.txt": "/react-charting-app/static/js/2.29d1fb70.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.8d75d198.js",
+    "static/js/runtime-main.52c67fef.js",
     "static/js/2.29d1fb70.chunk.js",
     "static/css/main.60634904.chunk.css",
     "static/js/main.407991e3.chunk.js"
