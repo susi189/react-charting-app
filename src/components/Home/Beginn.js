@@ -1,8 +1,9 @@
 import React from "react";
-import "./Start.css";
+import "./Beginn.css";
 
-const Start = (props) => {
+const Beginn = (props) => {
   const startNew = () => {
+    props.handleNewCycle();
     props.onClickRender();
   };
 
@@ -22,4 +23,4 @@ const Start = (props) => {
   );
 };
 
-export default Start;
+export default Beginn;

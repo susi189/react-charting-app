@@ -116,6 +116,7 @@ const ObservationForm = (props) => {
         observationDescrip: observationDescrip,
         quantity: quantity,
         date: enteredDate,
+        cycleNum: props.currentCycleDay,
       };
       // date: new Date(enteredDate).toLocaleDateString("en-US", {
       //   timeZone: "UTC",
@@ -129,6 +130,7 @@ const ObservationForm = (props) => {
         observationDescrip: observationDescrip,
         quantity: quantity,
         date: enteredDate,
+        cycleNum: null,
       };
     }
 

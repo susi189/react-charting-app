@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Record from "./components/Records/Record";
 import Chart from "./components/Chart/Chart";
-import Start from "./components/Home/Start";
+import Beginn from "./components/Home/Beginn";
 import SelectedContext from "./components/store/selected-day";
 import { supabase } from "./supabaseClient";
 import "./components/Chart/Chart.css";
@@ -23,11 +23,15 @@ const App = () => {
   const [cycle, setCycle] = useState([]);
   const [selectedDay, setSelectedDay] = useState("");
   const [day, setDay] = useState(dayObj);
+  const [cycleNum, setCycleNum] = useState(0);
+
+  //I need to figure out a way to display only the data for the current cycle, seems like the .eq() filter is not acepting variables as strings, for example .eq('cycleNum', cycleNum.toString() does not work)
 
   async function getDataHandler() {
     const { data } = await supabase
       .from("observations")
       .select("*")
+      // .eq("cycleNum", "2")
       .order("id");
 
     const previousDay = data[data.length - 1];
@@ -41,6 +45,7 @@ const App = () => {
     }
     setDay(previousDay);
     setCycle(data);
+    setCycleNum(previousDay.cycleNum);
   }
 
   async function updateDataHandler(enteredDay) {
@@ -55,6 +60,7 @@ const App = () => {
           observationDescrip: enteredDay.observationDescrip,
           quantity: enteredDay.quantity,
           date: enteredDay.date,
+          cycleNum: cycleNum,
         },
       ])
       .single();
@@ -87,13 +93,20 @@ const App = () => {
     getDataHandler();
   };
 
-  useEffect(() => {
-    getDataHandler();
-  }, []);
+  const handleNewCycle = () => {
+    let currentCycleNum = cycleNum + 1;
+    setCycleNum(currentCycleNum);
+    setLastDayNum(0);
+    setCycle([]);
+  };
 
   const renderChart = () => {
     setShowChart(true);
   };
+
+  useEffect(() => {
+    getDataHandler();
+  }, []);
 
   return (
     <SelectedContext.Provider
@@ -102,7 +115,12 @@ const App = () => {
         isSelectedDay: selectedDay,
       }}
     >
-      {!showChart && <Start onClickRender={renderChart}></Start>}
+      {!showChart && (
+        <Beginn
+          onClickRender={renderChart}
+          handleNewCycle={handleNewCycle}
+        ></Beginn>
+      )}
       {showChart && (
         <div>
           <Record
