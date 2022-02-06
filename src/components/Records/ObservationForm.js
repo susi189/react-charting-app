@@ -245,7 +245,6 @@ const ObservationForm = (props) => {
       month = "0" + month;
     }
     let date = today.getFullYear() + "-" + month + "-" + day;
-    console.log(date);
     setEnteredDate(date);
   }, [props.previousDay]);
 

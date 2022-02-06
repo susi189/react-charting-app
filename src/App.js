@@ -33,7 +33,6 @@ const App = () => {
 
     let currentCycle = data[0].cycleNum;
     setCycleNum(currentCycle);
-    console.log(cycleNum, "1 fetch");
   }
 
   async function getDataHandler() {
@@ -54,7 +53,6 @@ const App = () => {
     }
     setDay(previousDay);
     setCycle(data);
-    console.log(cycleNum, "2 fetch");
   }
 
   async function updateDataHandler(enteredDay) {
