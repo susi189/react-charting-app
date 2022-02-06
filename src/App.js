@@ -25,27 +25,36 @@ const App = () => {
   const [day, setDay] = useState(dayObj);
   const [cycleNum, setCycleNum] = useState(0);
 
-  //I need to figure out a way to display only the data for the current cycle, seems like the .eq() filter is not acepting variables as strings, for example .eq('cycleNum', cycleNum.toString() does not work)
+  async function getCurrentCycleNumber() {
+    const { data } = await supabase
+      .from("observations")
+      .select("cycleNum")
+      .order("cycleNum", { ascending: false });
+
+    let currentCycle = data[0].cycleNum;
+    setCycleNum(currentCycle);
+    console.log(cycleNum, "1 fetch");
+  }
 
   async function getDataHandler() {
     const { data } = await supabase
       .from("observations")
       .select("*")
-      // .eq("cycleNum", "2")
+      .eq("cycleNum", cycleNum.toString())
       .order("id");
 
     const previousDay = data[data.length - 1];
-
     if (previousDay === undefined) {
       setLastDayNum(0);
       setDay(dayObj);
     } else {
       let lastCycleDay = previousDay.cycleDay;
       setLastDayNum(lastCycleDay);
+      setCycleNum(previousDay.cycleNum);
     }
     setDay(previousDay);
     setCycle(data);
-    setCycleNum(previousDay.cycleNum);
+    console.log(cycleNum, "2 fetch");
   }
 
   async function updateDataHandler(enteredDay) {
@@ -93,11 +102,16 @@ const App = () => {
     getDataHandler();
   };
 
-  const handleNewCycle = () => {
+  const startNewCycle = () => {
     let currentCycleNum = cycleNum + 1;
     setCycleNum(currentCycleNum);
     setLastDayNum(0);
     setCycle([]);
+  };
+
+  const updateCycle = () => {
+    getCurrentCycleNumber();
+    getDataHandler();
   };
 
   const renderChart = () => {
@@ -105,6 +119,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    getCurrentCycleNumber();
     getDataHandler();
   }, []);
 
@@ -118,7 +133,8 @@ const App = () => {
       {!showChart && (
         <Beginn
           onClickRender={renderChart}
-          handleNewCycle={handleNewCycle}
+          handleNewCycle={startNewCycle}
+          handleCycleUpdate={updateCycle}
         ></Beginn>
       )}
       {showChart && (

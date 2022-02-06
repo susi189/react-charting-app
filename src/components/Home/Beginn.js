@@ -8,6 +8,7 @@ const Beginn = (props) => {
   };
 
   const updateCurrent = () => {
+    props.handleCycleUpdate();
     props.onClickRender();
   };
   return (
