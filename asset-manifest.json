@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-charting-app/static/css/main.e575253f.chunk.css",
-    "main.js": "/react-charting-app/static/js/main.f64bbca8.chunk.js",
-    "main.js.map": "/react-charting-app/static/js/main.f64bbca8.chunk.js.map",
+    "main.js": "/react-charting-app/static/js/main.ad92ea18.chunk.js",
+    "main.js.map": "/react-charting-app/static/js/main.ad92ea18.chunk.js.map",
     "runtime-main.js": "/react-charting-app/static/js/runtime-main.52c67fef.js",
     "runtime-main.js.map": "/react-charting-app/static/js/runtime-main.52c67fef.js.map",
     "static/js/2.9b85a2a3.chunk.js": "/react-charting-app/static/js/2.9b85a2a3.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.52c67fef.js",
     "static/js/2.9b85a2a3.chunk.js",
     "static/css/main.e575253f.chunk.css",
-    "static/js/main.f64bbca8.chunk.js"
+    "static/js/main.ad92ea18.chunk.js"
   ]
 }
