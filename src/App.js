@@ -3,7 +3,10 @@ import Record from "./components/Records/Record";
 import Chart from "./components/Chart/Chart";
 import Beginn from "./components/Home/Beginn";
 import SelectedContext from "./components/store/selected-day";
+
 import { supabase } from "./supabaseClient";
+
+import "./App.css";
 import "./components/Chart/Chart.css";
 
 const dayObj = {
@@ -21,7 +24,7 @@ const App = () => {
   const [updateDay, setUpdateDay] = useState(false);
   const [lastDayNum, setLastDayNum] = useState("");
   const [cycle, setCycle] = useState([]);
-  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedDay, setSelectedDay] = useState(""); //used in Context
   const [day, setDay] = useState(dayObj);
   const [cycleNum, setCycleNum] = useState(0);
 
@@ -31,8 +34,11 @@ const App = () => {
       .select("cycleNum")
       .order("cycleNum", { ascending: false });
 
-    let currentCycle = data[0].cycleNum;
-    setCycleNum(currentCycle);
+    //in case there is no entry there might be an error
+    if (data.length !== 0) {
+      let currentCycle = data[0].cycleNum;
+      setCycleNum(currentCycle);
+    }
   }
 
   async function getDataHandler() {
@@ -43,6 +49,7 @@ const App = () => {
       .order("id");
 
     const previousDay = data[data.length - 1];
+
     if (previousDay === undefined) {
       setLastDayNum(0);
       setDay(dayObj);
@@ -136,19 +143,22 @@ const App = () => {
         ></Beginn>
       )}
       {showChart && (
-        <div>
+        <main className="main">
           <Record
             lastCycleDayNum={lastDayNum}
             previousDay={day}
             onAddNewObserv={updateDataHandler}
             onAddModifiedObserv={modifyDayHandler}
           />
+          <div className="back-btn">
+            <button onClick={() => setShowChart(false)}>Home</button>
+          </div>
           <Chart
             getSelectedDay={getSelectedDay}
             cycleDaysData={cycle}
             lastCycleDay={lastDayNum}
           />
-        </div>
+        </main>
       )}
     </SelectedContext.Provider>
   );

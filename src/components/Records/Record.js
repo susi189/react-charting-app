@@ -8,7 +8,7 @@ const Record = (props) => {
   const context = useContext(SelectedContext);
 
   const saveNewObservHandler = (enteredObserv) => {
-    console.log("record", enteredObserv, context.isSelected);
+    // console.log("record", enteredObserv, context.isSelected);
     if (context.isSelected) {
       props.onAddModifiedObserv(enteredObserv);
     } else {

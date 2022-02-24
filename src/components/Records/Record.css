@@ -10,15 +10,15 @@
 }
 
 .new-observation button {
-  font: inherit;
+  all: unset;
   align-self: flex-end;
   cursor: pointer;
   padding: 0.5rem 2rem;
-  border: 1px solid #331832;
   background-color: #331832;
   color: white;
   border-radius: 12px;
-  margin-right: 1rem;
+
+  /* margin-right: 1rem; */
 }
 
 .new-observation button:hover,

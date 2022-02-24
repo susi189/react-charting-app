@@ -39,7 +39,7 @@ const additionalRecords = [
   "10WL",
 ];
 
-// const description = ["C", "C/K", "G", "K", "L", "P", "Y"];
+// const description = ["C", "C/K", "G", "K", "L", "P", "Y"]; handled in the ObservationDescription component
 
 const recordingSysyten = {
   H: "Heavy flow",
@@ -59,11 +59,11 @@ const recordingSysyten = {
   "10WL": "Wet with lubrication",
 };
 
-const modifyDate = (date) => {};
+// const modifyDate = (date) => {};
 
 const ObservationForm = (props) => {
   const context = useContext(SelectedContext);
-  const [onLoad, setOnLoad] = useState(true);
+  // const [onLoad, setOnLoad] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const [cycleDay, setCycleDay] = useState(1);
   const [observation, setObservation] = useState("");
@@ -140,8 +140,8 @@ const ObservationForm = (props) => {
     setObservDescrition("");
     setQuantity("");
     setEnteredDate("");
-    setCycleDay(cycleDay + 1);
-    setOnLoad(false);
+    setCycleDay(cycleDay); //changed from setCycleDay(cycleDay + 1) this increment seems to be some relict from the past
+    // setOnLoad(false);
   };
 
   const modifyChartHandler = () => {
@@ -228,10 +228,10 @@ const ObservationForm = (props) => {
 
     if (props.previousDay !== undefined) {
       let prevDate = props.previousDay.date;
+      console.log(props.previousDay, prevDate);
       let prevDateYear = parseInt(prevDate.slice(0, 4));
       let prevDateMonth = parseInt(prevDate.slice(5, 7)) - 1;
       let prevDateDay = parseInt(prevDate.slice(-2));
-
       today = new Date(prevDateYear, prevDateMonth, prevDateDay);
       today.setUTCDate(today.getUTCDate() + 1);
     }
