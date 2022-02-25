@@ -98,6 +98,7 @@ const ObservationForm = (props) => {
   };
 
   const isValidEntryHandler = (bool) => {
+    console.log(isValid);
     if (bool === false) {
     }
     setIsValid(bool);
@@ -106,6 +107,7 @@ const ObservationForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let newObserv = {};
+
     if (observation && isValid && !context.isSelected) {
       let currentCycleDay = props.lastCycleDay + 1;
       newObserv = {
@@ -118,9 +120,6 @@ const ObservationForm = (props) => {
         date: enteredDate,
         cycleNum: props.currentCycleDay,
       };
-      // date: new Date(enteredDate).toLocaleDateString("en-US", {
-      //   timeZone: "UTC",
-      // }),
     } else if (observation && isValid && context.isSelected) {
       newObserv = {
         cycleDay: cycleDay,
@@ -281,12 +280,11 @@ const ObservationForm = (props) => {
             value={enteredDate}
             onSelectDate={dateHandler}
           />
-          <button type="submit">Submit</button>
+          <button disable={isValid} type="submit">
+            Submit
+          </button>
         </div>
       </form>
-      {/* <button className="modify-btn" onClick={modifyChartHandler}>
-        Update date
-      </button> */}
     </Fragment>
   );
 };

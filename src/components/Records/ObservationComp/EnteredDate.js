@@ -5,6 +5,7 @@ const EnteredDate = (props) => {
 
   const onChangeHandler = (event) => {
     let lastDate = props.lastDate;
+    console.log(event.target.value);
     if (lastDate !== undefined) {
       if (
         lastDate.date === event.target.value ||
@@ -16,7 +17,7 @@ const EnteredDate = (props) => {
       }
     }
     props.onSelectDate(event.target.value);
-    // props.isValidEntry(isValidDate);
+    props.isValidEntry(isValidDate);
   };
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const EnteredDate = (props) => {
         onChange={onChangeHandler}
       ></input>
       {/* {!isValidDate && <div className="invalid-alert">Invalid Date</div>} */}
+      {/* ç */}
     </div>
   );
 };
