@@ -5,7 +5,6 @@ const EnteredDate = (props) => {
 
   const onChangeHandler = (event) => {
     let lastDate = props.lastDate;
-    console.log(event.target.value);
     if (lastDate !== undefined) {
       if (
         lastDate.date === event.target.value ||
@@ -38,8 +37,7 @@ const EnteredDate = (props) => {
         value={props.value}
         onChange={onChangeHandler}
       ></input>
-      {/* {!isValidDate && <div className="invalid-alert">Invalid Date</div>} */}
-      {/* ç */}
+      {!isValidDate && <div className="invalid-alert">Invalid Date</div>}
     </div>
   );
 };

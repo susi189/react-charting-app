@@ -63,8 +63,8 @@ const recordingSysyten = {
 
 const ObservationForm = (props) => {
   const context = useContext(SelectedContext);
-  // const [onLoad, setOnLoad] = useState(true);
-  const [isValid, setIsValid] = useState(true);
+  const [isValid, setIsValid] = useState(false);
+  const [disable, setDisable] = useState("false");
   const [cycleDay, setCycleDay] = useState(1);
   const [observation, setObservation] = useState("");
   const [additionalObserv, setAdditionalObserv] = useState("");
@@ -78,7 +78,6 @@ const ObservationForm = (props) => {
 
   const observationHandler = (event) => {
     setObservation(event);
-    // console.log(context);
   };
 
   const additionalObservHandler = (event) => {
@@ -98,49 +97,49 @@ const ObservationForm = (props) => {
   };
 
   const isValidEntryHandler = (bool) => {
-    console.log(isValid);
-    if (bool === false) {
-    }
     setIsValid(bool);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let newObserv = {};
+    if (observation === "" || !isValid) {
+      alert("You need record your observation");
+    } else {
+      if (observation && isValid && !context.isSelected) {
+        let currentCycleDay = props.lastCycleDay + 1;
+        newObserv = {
+          cycleDay: currentCycleDay,
+          color: color,
+          observation: observation,
+          additionalObserv: additionalObserv,
+          observationDescrip: observationDescrip,
+          quantity: quantity,
+          date: enteredDate,
+          cycleNum: props.currentCycleDay,
+        };
+      } else if (observation && isValid && context.isSelected) {
+        newObserv = {
+          cycleDay: cycleDay,
+          color: color,
+          observation: observation,
+          additionalObserv: additionalObserv,
+          observationDescrip: observationDescrip,
+          quantity: quantity,
+          date: enteredDate,
+          cycleNum: null,
+        };
+      }
 
-    if (observation && isValid && !context.isSelected) {
-      let currentCycleDay = props.lastCycleDay + 1;
-      newObserv = {
-        cycleDay: currentCycleDay,
-        color: color,
-        observation: observation,
-        additionalObserv: additionalObserv,
-        observationDescrip: observationDescrip,
-        quantity: quantity,
-        date: enteredDate,
-        cycleNum: props.currentCycleDay,
-      };
-    } else if (observation && isValid && context.isSelected) {
-      newObserv = {
-        cycleDay: cycleDay,
-        color: color,
-        observation: observation,
-        additionalObserv: additionalObserv,
-        observationDescrip: observationDescrip,
-        quantity: quantity,
-        date: enteredDate,
-        cycleNum: null,
-      };
+      props.onSaveNewObserv(newObserv);
+      setObservation("");
+      setAdditionalObserv("");
+      setObservDescrition("");
+      setQuantity("");
+      setEnteredDate("");
+      setCycleDay(cycleDay); //changed from setCycleDay(cycleDay + 1) this increment seems to be some relict from the past
+      // setOnLoad(false);
     }
-
-    props.onSaveNewObserv(newObserv);
-    setObservation("");
-    setAdditionalObserv("");
-    setObservDescrition("");
-    setQuantity("");
-    setEnteredDate("");
-    setCycleDay(cycleDay); //changed from setCycleDay(cycleDay + 1) this increment seems to be some relict from the past
-    // setOnLoad(false);
   };
 
   const modifyChartHandler = () => {
@@ -153,6 +152,14 @@ const ObservationForm = (props) => {
       setCycleDay(context.isSelectedDay.cycleDay);
     }
   };
+
+  useEffect(() => {
+    if (!isValid) {
+      setDisable("true");
+    } else {
+      setDisable("false");
+    }
+  }, [isValid]);
 
   useEffect(() => {
     modifyChartHandler();
@@ -227,7 +234,6 @@ const ObservationForm = (props) => {
 
     if (props.previousDay !== undefined) {
       let prevDate = props.previousDay.date;
-      console.log(props.previousDay, prevDate);
       let prevDateYear = parseInt(prevDate.slice(0, 4));
       let prevDateMonth = parseInt(prevDate.slice(5, 7)) - 1;
       let prevDateDay = parseInt(prevDate.slice(-2));
@@ -256,6 +262,7 @@ const ObservationForm = (props) => {
             description={recordingSysyten}
             value={observation}
             onSelectObservation={observationHandler}
+            isValidEntry={isValidEntryHandler}
           />
           <AdditionalObserv
             records={additionalRecords}
@@ -280,7 +287,7 @@ const ObservationForm = (props) => {
             value={enteredDate}
             onSelectDate={dateHandler}
           />
-          <button disable={isValid} type="submit">
+          <button disable={disable} type="submit">
             Submit
           </button>
         </div>
