@@ -1,6 +1,10 @@
+[!][project image](./src/assets/start-page.png)
+
 **About this project**
 
 --> This is a project in progress. <--
+
+Check out the app [here](https://susi189.github.io/react-charting-app/).
 
 I created this Charting App based on a [Creighton Model FertilityCare System](https://creightonmodel.com/background/) which is a physical paper chart for recording observations during menstrual cycle. The observations are color coded and there is a recording system based on numbers and letters.
 
@@ -19,7 +23,3 @@ _What have I learned (so far)?_
 - Date Object in JavaScript
 - Connecting the app via API to an external service
 - Making sure not to push the API key to a Github repository ;)
-
----
-
-Check out the app [here](https://susi189.github.io/react-charting-app/).
