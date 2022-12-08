@@ -1,4 +1,4 @@
-[!][project-image](./src/assets/start-page.png)
+[!][project-image](./src/assets/start-page.jpg)
 
 **About this project**
 
